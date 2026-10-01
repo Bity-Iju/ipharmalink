@@ -79,7 +79,7 @@ if (!function_exists('asset')) {
         $path = '/' . ltrim($path, '/');
         $file = APP_ROOT . $path;
         $version = is_file($file) ? substr((string) filemtime($file), -6) : '1';
-        return $path . '?v=' . $version;
+        return url($path) . '?v=' . $version;
     }
 }
 
@@ -87,12 +87,12 @@ if (!function_exists('upload_url')) {
     function upload_url(?string $path): string
     {
         if ($path === null || $path === '') {
-            return '/assets/images/placeholder.svg';
+            return url('/assets/images/placeholder.svg');
         }
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
             return $path;
         }
-        return '/' . ltrim($path, '/');
+        return url($path);
     }
 }
 
@@ -121,7 +121,7 @@ if (!function_exists('csrf_token')) {
 if (!function_exists('url')) {
     function url(string $path = '/'): string
     {
-        return \App\Config::str('app.url') . '/' . ltrim($path, '/');
+        return \App\Config::baseUrl() . '/' . ltrim($path, '/');
     }
 }
 

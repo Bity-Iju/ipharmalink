@@ -32,8 +32,12 @@ final class Request
     public function __construct()
     {
         $this->method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
-        $uri          = (string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-        $this->path   = '/' . trim($uri, '/');
+        $uriPath = '/' . trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
+        $basePath = Config::basePath();
+        if ($basePath !== '' && ($uriPath === $basePath || str_starts_with($uriPath, $basePath . '/'))) {
+            $uriPath = substr($uriPath, strlen($basePath));
+        }
+        $this->path = $uriPath === '' ? '/' : $uriPath;
         $this->query  = $_GET;
         $this->files  = $_FILES;
         $this->body   = $this->resolveBody();

@@ -32,6 +32,9 @@ final class Response
     /** 303 so the browser follows up with GET after a POST. */
     public static function redirect(string $url, int $status = 303): void
     {
+        if (str_starts_with($url, '/') && !str_starts_with($url, '//')) {
+            $url = Config::localPath($url);
+        }
         if (!headers_sent()) {
             header('Location: ' . $url, true, $status);
         }

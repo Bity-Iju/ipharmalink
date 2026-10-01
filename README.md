@@ -4,13 +4,15 @@ iPharmaLink is a PHP and MySQL pharmacy commerce application. Its current implem
 
 ## Local preview
 
-The app uses root-relative routes. From the project directory, run this with the XAMPP PHP executable to preview at the document root (not under `/iPharmaLink`):
+With XAMPP Apache and MySQL running, open `http://localhost/iPharmaLink/`. The app detects its subfolder from Apache and keeps routes, links, assets, and redirects inside it. Set `APP_URL=http://localhost/iPharmaLink` in `.env` when generating absolute links for emails or callbacks.
+
+To preview from the PHP development server instead, run this from the project directory:
 
 ```powershell
 C:\xampp\php\php.exe -S 127.0.0.1:8000 tools/dev-router.php
 ```
 
-Open `http://127.0.0.1:8000`. For Apache, configure a local virtual host whose document root is this project directory.
+Open `http://127.0.0.1:8000` for that development-server preview.
 
 ## Inventory alerts
 

@@ -16,6 +16,7 @@ $homeUrl = match (true) {
     \App\Auth::isSuperAdmin()    => '/admin/dashboard',
     \App\Auth::isPharmacy()      => '/pharmacy/dashboard',
     \App\Auth::isDelivery()      => '/delivery/dashboard',
+    \App\Auth::isSupplier()     => '/supplier/dashboard',
     default                      => '/account',
 };
 ?>
@@ -35,7 +36,7 @@ $homeUrl = match (true) {
     <?= $head ?? '' ?>
 </head>
 
-<body data-base="<?= e(rtrim((string) \App\Config::str('app.url'), '/')) ?>">
+<body data-base="<?= e(\App\Config::baseUrl()) ?>">
 
     <?= \App\View::capture('components/flashes') ?>
 

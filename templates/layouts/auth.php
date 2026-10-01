@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="<?= e(asset('assets/css/app.css')) ?>">
 </head>
 
-<body data-base="<?= e(rtrim((string) \App\Config::str('app.url'), '/')) ?>">
+<body data-base="<?= e(\App\Config::baseUrl()) ?>">
 
     <?= \App\View::capture('components/flashes') ?>
 

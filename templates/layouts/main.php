@@ -49,7 +49,7 @@ $metaDescription = $metaDescription ?? \App\Setting::getString('general.meta_des
     <?= $head ?? '' ?>
 </head>
 
-<body data-base="<?= e(rtrim((string) \App\Config::str('app.url'), '/')) ?>">
+<body data-base="<?= e(\App\Config::baseUrl()) ?>">
 
     <?= \App\View::capture('components/flashes') ?>
 

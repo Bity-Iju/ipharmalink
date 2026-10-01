@@ -37,7 +37,7 @@ final class View
             echo $content;
             return;
         }
-        echo self::capture($layout, array_merge($data, ['content' => $content]));
+        echo self::prefixLocalPaths(self::capture($layout, array_merge($data, ['content' => $content])));
     }
 
     /**
@@ -87,5 +87,25 @@ final class View
 
         $file = APP_ROOT . '/templates/' . ltrim($template, '/') . '.php';
         return is_file($file) ? $file : null;
+    }
+
+    private static function prefixLocalPaths(string $html): string
+    {
+        $basePath = Config::basePath();
+        if ($basePath === '') {
+            return $html;
+        }
+
+        return preg_replace_callback(
+            '/\b(href|src|action|poster|formaction|data-bs-target|data-target|data-url)="(\/(?!\/)[^"]*)"/i',
+            static function (array $match) use ($basePath): string {
+                $path = $match[2];
+                if ($path === $basePath || str_starts_with($path, $basePath . '/')) {
+                    return $match[0];
+                }
+                return $match[1] . '="' . $basePath . ($path === '/' ? '/' : $path) . '"';
+            },
+            $html
+        ) ?? $html;
     }
 }

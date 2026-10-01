@@ -59,6 +59,42 @@ final class Config
         return $v === null ? $default : (string) $v;
     }
 
+    public static function basePath(): string
+    {
+        $configured = parse_url(self::str('app.url'), PHP_URL_PATH);
+        if (is_string($configured) && trim($configured, '/') !== '') {
+            return '/' . trim($configured, '/');
+        }
+
+        if (PHP_SAPI === 'cli') {
+            return '';
+        }
+
+        $script = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+        $directory = str_replace('\\', '/', dirname($script));
+        return $directory === '.' || $directory === '/' ? '' : '/' . trim($directory, '/');
+    }
+
+    public static function baseUrl(): string
+    {
+        $url = rtrim(self::str('app.url'), '/');
+        $configured = parse_url($url, PHP_URL_PATH);
+        if ((!is_string($configured) || trim($configured, '/') === '') && self::basePath() !== '') {
+            $url .= self::basePath();
+        }
+        return rtrim($url, '/');
+    }
+
+    public static function localPath(string $path): string
+    {
+        $path = '/' . ltrim($path, '/');
+        $basePath = self::basePath();
+        if ($basePath === '' || $path === $basePath || str_starts_with($path, $basePath . '/')) {
+            return $path;
+        }
+        return $basePath . ($path === '/' ? '/' : $path);
+    }
+
     /**
      * Read a variable straight from the environment, normalising booleans.
      * Used by config/config.php before App\Config exists.

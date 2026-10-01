@@ -1,4 +1,15 @@
-vendor/
 .env
+.env.*
+!.env.example
+
+/storage/
+/vendor/
+/node_modules/
+
+/.vscode/
+/.opencode/
+/.kilocode/
+
+*.log
+Thumbs.db
 .DS_Store
-.phpunit.result.cache

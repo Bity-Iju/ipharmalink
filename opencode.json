@@ -1,0 +1,14 @@
+{
+  "plugin": [
+    [
+      "https://github.com/Shiyong-Tan/opencode-task-supervisor/releases/download/v0.1.1/opencode-task-supervisor-0.1.1.tgz",
+      {
+        "allowDispatch": true,
+        "allowNotifications": false,
+        "normalGui": {
+          "enabled": true
+        }
+      }
+    ]
+  ]
+}
